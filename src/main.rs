@@ -240,7 +240,9 @@ fn main() {
                 let mut renderer = conrod_glium::Renderer::new(display.get()).unwrap();
 
                 // force font atlas creation early
-                renderer.fill(display.get(), ui.draw(), &conrod_core::image::Map::new());
+                let empty_image_map: conrod_core::image::Map<glium::texture::Texture2d> = conrod_core::image::Map::new();
+            
+                renderer.fill(display.get(), ui.draw(), &empty_image_map);
                 
 
                 let mut event_loop = support::EventLoop::new();
