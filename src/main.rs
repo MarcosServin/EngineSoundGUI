@@ -5,6 +5,7 @@ use crate::utils::{fix_engine, load_engine, seconds_to_samples};
 use clap::{value_t, value_t_or_exit, App, Arg};
 use parking_lot::RwLock;
 use std::sync::Arc;
+use std::fs;
 
 #[cfg(feature = "gui")]
 use crate::{
@@ -224,10 +225,16 @@ fn main() {
                     .build();
                 let ids = gui::Ids::new(ui.widget_id_generator());
 
+
+                let font_data = fs::read("C:/Windows/Fonts/arial.ttf").unwrap();
+
                 ui.fonts.insert(
+                    Font::from_bytes(&font_data).unwrap(),
+                );
+                /*ui.fonts.insert(
                     Font::from_bytes(&include_bytes!("../fonts/NotoSans/NotoSans-Regular.ttf")[..])
                         .unwrap(),
-                );
+                );*/
 
                 let mut gui_state = GUIState::new(gui_fft_receiver);
 
