@@ -225,23 +225,23 @@ fn main() {
                     .build();
                 let ids = gui::Ids::new(ui.widget_id_generator());
 
-
-                let font_data = fs::read("C:/Windows/Fonts/segoeui.ttf").unwrap();
-
-                let font_data: &'static [u8] =
-                    Box::leak(font_data.into_boxed_slice());
-                
-                ui.fonts.insert(
-                    Font::from_bytes(font_data).unwrap(),
+                let font_id = ui.fonts.insert(
+                Font::from_bytes(
+                    include_bytes!("../fonts/NotoSans/NotoSans-Regular.ttf")
+                ).unwrap(),
                 );
-                /*ui.fonts.insert(
-                    Font::from_bytes(&include_bytes!("../fonts/NotoSans/NotoSans-Regular.ttf")[..])
-                        .unwrap(),
-                );*/
+                
+                ui.theme.font_id = Some(font_id);
 
                 let mut gui_state = GUIState::new(gui_fft_receiver);
 
+                
+                
                 let mut renderer = conrod_glium::Renderer::new(display.get()).unwrap();
+
+                // force font atlas creation early
+                renderer.fill(display.get(), ui.draw(), &conrod_core::image::Map::new());
+                
 
                 let mut event_loop = support::EventLoop::new();
                 'main: loop {
