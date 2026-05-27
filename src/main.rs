@@ -226,10 +226,13 @@ fn main() {
                 let ids = gui::Ids::new(ui.widget_id_generator());
 
 
-                let font_data = fs::read("C:/Windows/Fonts/arial.ttf").unwrap();
+                let font_data = fs::read("C:/Windows/Fonts/segoeui.ttf").unwrap();
 
+                let font_data: &'static [u8] =
+                    Box::leak(font_data.into_boxed_slice());
+                
                 ui.fonts.insert(
-                    Font::from_bytes(&font_data).unwrap(),
+                    Font::from_bytes(font_data).unwrap(),
                 );
                 /*ui.fonts.insert(
                     Font::from_bytes(&include_bytes!("../fonts/NotoSans/NotoSans-Regular.ttf")[..])
